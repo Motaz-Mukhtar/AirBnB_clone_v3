@@ -69,7 +69,7 @@ class DBStorage:
         if obj is not None:
             self.__session.delete(obj)
 
-    def reload(self,):
+    def reload(self):
         """ create all talbes in the currnet database and new session """
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
