@@ -1,0 +1,109 @@
+.container .places
+{
+    text-align: center;
+}
+
+.container .places h1
+{
+    font-size: 30px;
+    margin-left: 20px;
+    text-align: left;
+}
+
+.container .places article
+{
+    width: 390px;
+    padding: 20px;
+    margin: 20px;
+    border: #FF5A5F 1px solid;
+    border-radius: 4px;
+    display: inline-table;
+}
+
+.container .places article .name_price
+{
+    position: relative;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.container .places article .name_price h2
+{
+    font-size: 30px;
+    position: absolute;
+    right: 140px;
+}
+
+.container .places article .price_by_night
+{
+    color: #FF5A5F;
+    border: #FF5A5F 4px solid;
+    border-radius: 50px;
+    display: flex;
+    max-width: 60px;
+    height: 60px;
+    font-size: 30px;
+    margin-left: auto;
+    align-items: center;
+    justify-content: center;
+    padding: 1.7% 2.6%;
+    margin-top: 20px;
+}
+
+.container .places article .information
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    border-top: #DDDDDD 1px solid;
+    border-bottom: #DDDDDD 1px solid;
+    margin-bottom: 20px;
+}
+
+.container .places article .information div
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    height: 65px;
+}
+
+.container .places article .information div:first-child
+{
+    margin-left: 50px;
+}
+
+.container .places article .information .max_guest
+{
+    background: url(../images/icon_group.png) no-repeat;
+    width: 100px;
+}
+
+.container .places article .information .number_rooms
+{
+    background: url(../images/icon_bed.png) no-repeat;
+    width: 100px;
+}
+
+.container .places article .information .number_bathrooms
+{
+    background: url(../images/icon_bath.png) no-repeat;
+    width: 100px;
+}
+
+.container .places article .user
+{
+    text-align: left;
+    margin: 20px 0px;
+}
+.container .places article .user sup
+{
+    font-weight: bold;
+}
+
+.container .places article .description
+{
+    text-align: left;
+}
