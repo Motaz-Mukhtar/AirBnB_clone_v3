@@ -18,6 +18,12 @@ def close_storage(x):
 
 
 
+@app.errorhandler(404)
+def error_handling(error):
+    """ Not found error """
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
+
 
 
 if __name__ == "__main__":
