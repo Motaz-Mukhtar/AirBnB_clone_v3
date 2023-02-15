@@ -16,8 +16,8 @@ def stats():
     classes = {"Amenity": "amenities", "City": "cities",
                "Place": "places", "Review": "reviews",
                "State": "states", "User": "users"}
-    all_ stats = {}
+    all_stats = {}
     for cls in classes.keys():
-        all_ stats[classes[cls]] = storage.count(cls)
+        all_stats[classes[cls]] = storage.count(cls)
     return jsonify(all_ stats)
 
