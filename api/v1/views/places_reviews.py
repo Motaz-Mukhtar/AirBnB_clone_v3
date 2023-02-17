@@ -23,7 +23,8 @@ def review_by_id(place_id):
         abort(404)
 
 
-@app_views.route("/reviews/<review_id>", methods=['GET'], strict_slashes=False)
+@app_views.route("/reviews/<review_id>", methods=['GET'],
+                 strict_slashes=False)
 def get_review(review_id):
     """ GET method"""
     review = storage.get(Review, review_id)
@@ -77,7 +78,8 @@ def put_review(review_id):
     if not request.get_json():
         abort(400, description="Not a JSON")
     for key, val in request.get_json().items():
-        if key not in ['id', 'user_id', 'place_id', 'created_at', 'updated_at']:
+        if key not in ['id', 'user_id', 'place_id',
+                       'created_at', 'updated_at']:
             setattr(review, key, val)
     storage.save()
     return (jsonify(review.to_dict()), 200)

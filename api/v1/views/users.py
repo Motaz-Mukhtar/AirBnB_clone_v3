@@ -27,7 +27,7 @@ def by_id(user_id):
 
 
 @app_views.route("/users/<user_id>", methods=['DELETE'], strict_slashes=False)
-def delete_user(user_id):  
+def delete_user(user_id):
     """Delete by id"""
     usr = storage.get(User, user_id)
     if usr:
@@ -36,7 +36,7 @@ def delete_user(user_id):
         return jsonify({})
     else:
         abort(404)
-    
+
 
 @app_views.route('/users/', methods=['POST'], strict_slashes=False)
 def create_user():

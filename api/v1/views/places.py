@@ -8,19 +8,23 @@ from models.city import City
 from models.user import User
 
 
-@app_views.route('/cities/<city_id>/places', methods=['GET'], strict_slashes=False)
+@app_views.route('/cities/<city_id>/places',
+                 methods=['GET'], strict_slashes=False)
 def places(city_id):
-     """Get place in a specific city"""
-     city = storage.get('City', city_id)
-     if city is None:
-         abort(404)
-     places = []
-     for place in city.places:
-         places.append(place.to_dict())
-     return jsonify(places)
+    """Get place in a specific city"""
+    city = storage.get('City', city_id)
+    places = []
+
+    if city is None:
+        abort(404)
+
+    for place in city.places:
+        places.append(place.to_dict())
+    return jsonify(places)
 
 
-@app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/places/<place_id>', methods=['GET'],
+                 strict_slashes=False)
 def place_by_id(place_id):
     """Place by id """
     place = storage.get(Place, place_id)
@@ -30,7 +34,8 @@ def place_by_id(place_id):
         abort(404)
 
 
-@app_views.route('/places/<place_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/places/<place_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_place(place_id):
     """Delete place"""
     place = storage.get(Place, place_id)
@@ -39,13 +44,14 @@ def delete_place(place_id):
         storage.save()
         return jsonify({})
     else:
-        abort (404)
+        abort(404)
 
 
-@app_views.route('/cities/<city_id>/places', methods=['POST'], strict_slashes=False)
+@app_views.route('/cities/<city_id>/places',
+                 methods=['POST'], strict_slashes=False)
 def create_place(city_id):
     """Create place"""
-    city =storage.get(City, city_id)
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
     req_json = request.get_json()
@@ -62,7 +68,8 @@ def create_place(city_id):
     return (jsonify(place.to_dict()), 201)
 
 
-@app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/places/<place_id>', methods=['PUT'],
+                 strict_slashes=False)
 def update_place(place_id):
     place = storage.get(Place, place_id)
     if not place:
