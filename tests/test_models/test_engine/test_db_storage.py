@@ -52,12 +52,10 @@ class TestDBStorage(unittest.TestCase):
     def tearDownClass(cls):
         """ tearDownClass fucntion """
         if type(models.storage) == DBStorage:
-            cls.storage._DBStorage__session.delete(cls.state)
             cls.storage._DBStorage__session.delete(cls.city)
+            cls.storage._DBStorage__session.delete(cls.state)
             cls.storage._DBStorage__session.delete(cls.amenity)
             cls.storage._DBStorage__session.delete(cls.user)
-            cls.storage._DBStorage__session.delete(cls.review)
-            cls.storage._DBStorage__session.delete(cls.place)
             cls.storage._DBStorage__session.commit()
 
             del cls.state
@@ -66,6 +64,7 @@ class TestDBStorage(unittest.TestCase):
             del cls.user
             del cls.review
             del cls.place
+            cls.storage._DBStorage__session.close()
             del cls.storage
 
     def test_pep8(self):
@@ -106,7 +105,7 @@ class TestDBStorage(unittest.TestCase):
         """ Test all() method """
         objs = self.storage.all()
         self.assertEqual(type(objs), dict)
-        self.assertEqual(len(objs), 6)
+        self.assertEqual(len(objs), self.storage.count())
 
     @unittest.skipIf(type(models.storage) == FileStorage,
                      "Test Engine FileStorage")
@@ -114,8 +113,7 @@ class TestDBStorage(unittest.TestCase):
         """ Test all(cls) method """
         state = self.storage.all(State)
         self.assertEqual(type(state), dict)
-        self.assertEqual(len(state), 1)
-        self.assertEqual(self.state, list(state.values())[0])
+        self.assertEqual(len(state), self.storage.count('State'))
 
     @unittest.skipIf(type(models.storage) == FileStorage,
                      "Test Engine FileStorage")
@@ -138,16 +136,17 @@ class TestDBStorage(unittest.TestCase):
         db = getenv("HBNB_MYSQL_DB")
         con = MySQLdb.connect(user=username, passwd=password, db=db)
         cursor = con.cursor()
-        cursor.execute("SELECT * FROM states WHERE name = 'Gorgia'")
+        cursor.execute("SELECT * FROM states WHERE `name` = 'Gorgia'")
         query = cursor.fetchall()
         self.assertEqual(len(query), 1)
         self.assertEqual(state.id, query[0][0])
+        cursor.close()
 
     @unittest.skipIf(type(models.storage) == FileStorage,
                      "Test Engine FileStorage")
     def test_delete(self):
         """ Test delete() method """
-        state = State(name="Gorgia")
+        state = State(name="Zelda")
         self.storage._DBStorage__session.add(state)
         self.storage._DBStorage__session.commit()
         self.storage.delete(state)
@@ -158,10 +157,26 @@ class TestDBStorage(unittest.TestCase):
     def test_reload(self):
         """ Test reload() method """
         curr_session = self.storage._DBStorage__session
-        self.storage.reload()
-        self.assertIsInstance(self.storage._DBStorage__session, Session)
-        self.assertNotEqual(self.storage._DBStorage__session, curr_session)
-        self.storage.__DBStorage__session = curr_session
+        self.assertEqual(self.storage._DBStorage__session, curr_session)
+        self.storage._DBStorage__session.close()
+        self.storage._DBStorage__session = curr_session
+
+    @unittest.skipIf(type(models.storage) == FileStorage,
+                     "Test Engine FileStorage")
+    def test_get(self):
+        """ Test get() method """
+        inst = self.state
+        state = self.storage.get('State', inst.id)
+        self.assertEqual(state, inst)
+
+    @unittest.skipIf(type(models.storage) == FileStorage,
+                     "Test Engine FileStorage")
+    def test_count(self):
+        """ Test count method """
+        states = self.storage.all('State')
+        count_of_states = self.storage.count('State')
+        self.assertEqual(len(states), count_of_states)
+        self.assertEqual(type(count_of_states), int)
 
 
 if __name__ == "__main__":

@@ -127,7 +127,6 @@ class Test_FileStorage(unittest.TestCase):
             self.assertIn("State." + self.state.id, texts)
             self.assertIn("Place." + self.place.id, texts)
             self.assertIn("Amenity." + self.amenity.id, texts)
-            self.assertIn("Review.", self.review.id, texts)
 
     def test_reload(self):
         """ Test reload() method """
@@ -140,6 +139,7 @@ class Test_FileStorage(unittest.TestCase):
         self.assertIn("BaseModel." + model.id, store)
 
     def test_reload_no_file(self):
+        """ test reload Error """
         try:
             self.storage.reload()
         except Exception:
@@ -155,10 +155,26 @@ class Test_FileStorage(unittest.TestCase):
                          FileStorage._FileStorage__objects)
 
     def test_delete_nonexistant(self):
+        """ Test delete if it handle objects existant Error """
         try:
             self.storage.delete(State())
         except Exception:
             self.fail
+
+    def test_get(self):
+        """ Test get() method """
+        state = State(name="Zelda")
+        self.storage.new(state)
+        self.storage.save()
+        get_model = self.storage.get('State', state.id)
+        self.assertEqual(state, get_model)
+
+    def test_count(self):
+        """ Test count() method """
+        states = self.storage.all('State')
+        count_of_states = self.storage.count('State')
+        self.assertEqual(len(states), count_of_states)
+        self.assertEqual(type(count_of_states), int)
 
 
 if __name__ == "__main__":

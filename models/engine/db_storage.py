@@ -80,20 +80,29 @@ class DBStorage:
     def close(self):
         """ call close() method on the private session attribute  """
         self.__session.close()
-    
+
     def get(self, cls, id):
-        """ Returns the object based on the class and it's ID, or None if not found """
+        """
+            Returns the object based on the class
+            and it's ID, or None if not found
+        """
+        if type(cls) == str:
+            cls = eval(cls)
         obj = self.__session.query(cls).where(cls.id == id).first()
         if obj is not None:
             return obj
         else:
             return None
-    
+
     def count(self, cls=None):
         """
-            Returns the number of objects in storage matching the given class,
-            if noe class is passed, returns the count of all objects in storage.
+            Returns the number of objects in
+            storage matching the given class,
+            if noe class is passed, returns the
+            count of all objects in storage.
         """
+        if type(cls) == str:
+            cls = eval(cls)
         if cls is not None:
             objects = self.__session.query(cls).all()
         else:
