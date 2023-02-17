@@ -86,10 +86,10 @@ class DBStorage:
             Returns the object based on the class
             and it's ID, or None if not found
         """
-        if type(cls) == str:
-            cls = eval(cls)
         if obj and id:
-            obj = self.__session.query(cls).where(cls.id == id).first()
+            key = "{}.{}".format(cls, id)
+            objs = self.all(cls)
+            obj = objs.get(kys)
             return obj
         else:
             return None
