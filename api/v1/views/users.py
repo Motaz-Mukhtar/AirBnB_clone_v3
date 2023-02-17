@@ -63,7 +63,7 @@ def update_user(user_id):
     json_dic = request.get_json()
     if not json_dic:
         abort(400, description="Not a JSON")
-    if for key, value in json_dict.items():
+    for key, value in json_dict.items():
         if key not in ['id', 'created_at', 'updated_at', 'email']
             setattr(user, key, value)
     storage.save()
