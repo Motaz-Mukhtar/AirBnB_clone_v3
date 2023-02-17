@@ -88,8 +88,8 @@ class DBStorage:
         """
         if type(cls) == str:
             cls = eval(cls)
-        obj = self.__session.query(cls).where(cls.id == id).first()
-        if obj is not None:
+        if obj and id:
+            obj = self.__session.query(cls).where(cls.id == id).first()
             return obj
         else:
             return None
