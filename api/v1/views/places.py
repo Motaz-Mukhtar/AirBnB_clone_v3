@@ -1,4 +1,4 @@
-#!/usr/bin/pythone3
+#!/usr/bin/python3
 """Places"""
 from flask import jsonify, abort, request
 from api.v1.views import app_views
