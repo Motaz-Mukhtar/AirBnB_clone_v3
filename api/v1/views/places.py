@@ -69,7 +69,7 @@ def update_place(place_id):
         abort(404)
     req_json = request.get_json()
     if not req_json:
-        abort(400, descriptions="Not a JSON')
+        abort(400, description="Not a JSON")
     for key, value in req_json.items():
         if key not in ['id', 'created_at', 'updated_at', 'city_id', 'user_id']:
             setattr(place, key, value)
