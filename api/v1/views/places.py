@@ -45,7 +45,7 @@ def delete_place(place_id):
 @app_views.route('/cities/<city_id>/places', methods=['POST'], strict_slashes=False)
 def create_place(city_id):
     """Create place"""
-    city =storage.get(City, city-id)
+    city =storage.get(City, city_id)
     if not city:
         abort(404)
     req_json = request.get_json()
@@ -56,7 +56,7 @@ def create_place(city_id):
     if 'name' not in req_json:
         abort(400, description="Missing name")
     req_json['city_id'] = city_id
-    place =Place(**req_json)
+    place = Place(**req_json)
     storage.new(place)
     storage.save()
     return (jsonify(place.to_dict()), 201)
