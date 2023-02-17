@@ -42,7 +42,7 @@ def delete_place(place_id):
         abort (404)
 
 
-@app_views.route('/cities/<city_id>/places', methods=['POST'], stric_slashes=False)
+@app_views.route('/cities/<city_id>/places', methods=['POST'], strict_slashes=False)
 def create_place(city_id):
     """Create place"""
     city =storage.get(City, city-id)
